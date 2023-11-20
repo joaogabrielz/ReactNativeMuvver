@@ -3,12 +3,16 @@ import {
   StyleSheet,
   ScrollView,
   Button as ButtonNative,
+  TouchableOpacity,
 } from "react-native";
+
 import React, { useState } from "react";
 
 import { useNavigation } from "@react-navigation/native";
 
 import { RadioButton, Text, Button, TextInput } from "react-native-paper";
+
+import Slider from "@react-native-community/slider";
 
 export default function Price() {
   const navigation = useNavigation();
@@ -17,12 +21,32 @@ export default function Price() {
     navigation.navigate("CreatedTravel");
   };
 
-  const [value, setValue] = React.useState(100);
+  const [sliderValue, setSliderValue] = useState(100);
+
+  const onChangeSlider = (value) => {
+    if (!value) {
+      setValue(0);
+    } else {
+      setSliderValue(value);
+    }
+  };
+
+  const [isSlider, setIsSlider] = useState(true);
+
+  const [value, setValue] = React.useState("100");
 
   const handleValue = (text) => {
     const cleanedText = text.replace(/[^0-9]/g, "");
 
-    setValue(cleanedText);
+    if (!cleanedText) {
+      setValue("0");
+    } else {
+      setValue(cleanedText);
+    }
+  };
+
+  const changeSlider = () => {
+    setIsSlider(!isSlider);
   };
 
   return (
@@ -35,26 +59,66 @@ export default function Price() {
       <ScrollView>
         <Text style={[styles.bold, styles.subtitle]}>Preço de entrega</Text>
 
-        <Text style={[styles.textCenter , styles.lightGrey]}>Valor sugerido</Text>
+        <Text
+          style={[
+            styles.textCenter,
+            styles.bold,
+            styles.lightGrey,
+            styles.sugest,
+          ]}
+        >
+          Valor sugerido
+        </Text>
         <View style={styles.inputText}>
-          <Text>R$ </Text>
-          <TextInput
-            mode="outlined"
-            label="Preço"
-            placeholder="100"
-            keyboardType="numeric"
-            right={<TextInput.Affix text="" />}
-            onChangeText={(text) => handleValue(text)}
-            value={value}
-          />
+          {!isSlider && <Text>R$ </Text>}
+          {!isSlider && (
+            <TextInput
+              style={styles.input}
+              mode="outlined"
+              label="Preço"
+              placeholder="100"
+              keyboardType="numeric"
+              right={<TextInput.Affix text="" />}
+              onChangeText={(text) => handleValue(text)}
+              value={value}
+            />
+          )}
+
+          {isSlider && (
+            <Slider
+              style={styles.slider}
+              minimumValue={1}
+              maximumValue={250}
+              step={1}
+              value={sliderValue}
+              thumbTintColor="#543d93"
+              minimumTrackTintColor="#6750a4"
+              maximumTrackTintColor="#6750a4"
+              onValueChange={onChangeSlider}
+            />
+          )}
         </View>
+
+        <TouchableOpacity
+          style={styles.touchable}
+          onPress={() => changeSlider()}
+        >
+          <Text style={styles.textPrice}>
+            R$ {isSlider ? sliderValue || "00.00" : value || "00.00"}
+          </Text>
+        </TouchableOpacity>
+
         <View>
-          <Text style={[styles.paddingText, styles.textCenter, styles.lightGrey]}>Troque o valor acima, para um preço mais específico</Text>
+          <Text
+            style={[styles.paddingText, styles.textCenter, styles.lightGrey]}
+          >
+            Troque o valor acima, para um preço mais específico
+          </Text>
         </View>
         <Button
           style={styles.cta}
           mode="contained"
-          disabled={!value}
+          disabled={!sliderValue || !value || sliderValue <= 0 || value <= 0}
           onPress={() => navigateTo()}
         >
           Avançar
@@ -73,6 +137,7 @@ const styles = StyleSheet.create({
   text: {
     color: "white",
     fontSize: 20,
+    paddingTop: 20,
   },
   subtitle: {
     padding: 22,
@@ -81,19 +146,35 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   lightGrey: {
-    color: 'lightgrey'
+    color: "lightgrey",
   },
   paddingText: {
-    padding: 20
+    padding: 20,
   },
   textCenter: {
-    textAlign: 'center'
+    textAlign: "center",
   },
   inputText: {
     marginHorizontal: 20,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center'
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  input: {
+    width: "90%",
+  },
+  slider: {
+    width: "100%",
+  },
+  sugest: {
+    marginBottom: 30,
+  },
+  textPrice: {
+    textAlign: "center",
+  },
+  touchable: {
+    marginTop: 20,
+    height: 30,
   },
   cta: {
     borderRadius: 4,

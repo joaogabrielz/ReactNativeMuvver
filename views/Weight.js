@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
   text: {
     color: "white",
     fontSize: 20,
+    paddingTop: 20
   },
   subtitle: {
     padding: 22

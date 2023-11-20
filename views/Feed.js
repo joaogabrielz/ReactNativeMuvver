@@ -9,14 +9,14 @@ import React, { useState } from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { Button, Text } from "react-native-paper";
 import TravelInfo from "../components/TravelInfo";
+import TravelInfoObject from "../components/TravelInfoObject";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Feed() {
   const navigation = useNavigation();
 
-
   const navigateTo = () => {
-    navigation.navigate('SendDeliver');
+    navigation.navigate("SendDeliver");
   };
 
   const [isTravel, setIsTravel] = useState(true);
@@ -74,9 +74,22 @@ export default function Feed() {
       dateAfter: "Amanha(13/01)",
       route: "Rio Brilhante para Dourados - MS",
       price: "R$ 100,00",
-      driverName: "Carlos Moura",
+      driverName: "Cintia Mourão",
+      driverImage: require("../assets/muie.jpg"),
       verified: true,
       rating: "5,0",
+      deliveries: "1030",
+      vehicleType: "Moto",
+    },
+    {
+      id: 5,
+      dateBefore: "Hoje (13/06)",
+      dateAfter: "Amanha(14/01)",
+      route: "Rio Brilhante para Dourados - MS",
+      price: "R$ 120,00",
+      driverName: "Carlos Moura",
+      verified: true,
+      rating: "4,0",
       deliveries: "1030",
       vehicleType: "Moto",
     },
@@ -85,14 +98,15 @@ export default function Feed() {
   const objects = [
     {
       id: 1,
-      route: "Rio Brilhante para Dourados - MS",
-      price: "R$ 150,00",
-      driverImage: require("../assets/icon.png"),
+      dateDelivery: "12/01/2019",
+      route: "De: Rio Brilhante - MS",
+      routeTo: "Para: Dourados - MS",
+      driverImage: require("../assets/muie.jpg"),
       driverName: "Amanda Lima",
-      verified: true,
       rating: "4,97",
-      deliveries: "575",
-      vehicleType: "Carro",
+      objectImage: require("../assets/marcoaurelio.jpeg"),
+      objectName: "Livro",
+      verified: true,
     },
   ];
 
@@ -147,8 +161,8 @@ export default function Feed() {
             <TravelInfo key={travel.id} travelInfo={travel} />
           ))}
         {!isTravel &&
-          objects.map((travel, index) => (
-            <TravelInfo key={travel.id} travelInfo={travel} />
+          objects.map((object, index) => (
+            <TravelInfoObject key={object.id} travelInfo={object} />
           ))}
       </ScrollView>
       {isTravel && (
@@ -173,7 +187,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: "40",
     backgroundColor: "black",
     minHeight: 80,
-    paddingTop: 20
+    paddingVertical: 20,
   },
   bold: {
     fontWeight: "bold",
@@ -186,7 +200,11 @@ const styles = StyleSheet.create({
   action: {
     flex: 1,
     padding: 0,
-    paddingBottom: 5
+    paddingBottom: 5,
+    height: 60,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   active: {
     borderBottomWidth: 3,
@@ -201,6 +219,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     paddingHorizontal: 20,
     position: "relative",
+    marginBottom: 200
   },
   textFlexBetween: {
     display: "flex",
@@ -236,11 +255,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 0,
     right: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     height: 50,
-    bottom: 10,
+    bottom: 145,
     marginHorizontal: 20,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
 });

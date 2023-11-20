@@ -17,7 +17,7 @@ export default function Route() {
   const navigation = useNavigation();
 
   const navigateTo = () => {
-    navigation.navigate('Volume');
+    navigation.navigate("Volume");
   };
 
   const [isRoute, setIsRoute] = useState(true);
@@ -171,8 +171,18 @@ export default function Route() {
       {!isRoute && (
         <View>
           <View>
-          
+            <Image
+              source={require("../assets/mapaMuver.png")}
+              style={styles.image}
+            />
           </View>
+          <Button
+            style={[styles.cta, styles.bold]}
+            mode="contained"
+            onPress={() =>  swapTo("map")}
+          >
+            Avançar
+          </Button>
         </View>
       )}
     </View>
@@ -181,8 +191,8 @@ export default function Route() {
 
 const styles = StyleSheet.create({
   map: {
-    height: '100%',
-    width: '100%'
+    height: "100%",
+    width: "100%",
   },
   titleBox: {
     backgroundColor: "black",
@@ -192,6 +202,7 @@ const styles = StyleSheet.create({
   text: {
     color: "white",
     fontSize: 20,
+    paddingTop: 20,
   },
   subtitle: {
     padding: 20,
@@ -215,7 +226,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   inputDate: {
-    width: '44%',
+    width: "44%",
   },
   inputText: {
     marginHorizontal: 20,
@@ -244,8 +255,9 @@ const styles = StyleSheet.create({
     borderBottomColor: "white",
   },
   image: {
-    width: 30,
-    height: 30,
+    minHeight: 500,
+    width: "100%",
+    resizeMode: "contain",
   },
   title: { color: "white", padding: 5, fontSize: 22 },
   scrollable: {
